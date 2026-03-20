@@ -188,21 +188,23 @@ func main() {
 	
 	meter := otel.Meter("checkout")
 
-	paymentFailureCounter, err = meter.Int64Counter(
+	paymentFailureCounterTemp, err := meter.Int64Counter(
 		"app.payment.failures",
 		metric.WithDescription("Count of failed payment attempts"),
 	)
 	if err != nil {
 		logger.Error(fmt.Sprintf("failed creating app.payment.failures counter: %v", err))
 	}
+	paymentFailureCounter = paymentFailureCounterTemp
 
-	paymentFailureValue, err = meter.Float64Histogram(
+	paymentFailureValueTemp, err := meter.Float64Histogram(
 		"app.payment.failure_value",
 		metric.WithDescription("Dollar value of carts impacted by payment failures"),
 	)
 	if err != nil {
 		logger.Error(fmt.Sprintf("failed creating app.payment.failure_value histogram: %v", err))
 	}
+	paymentFailureValue = paymentFailureValueTemp
 
 	err = runtime.Start(runtime.WithMinimumReadMemStatsInterval(time.Second))
 	if err != nil {
