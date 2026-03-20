@@ -187,7 +187,8 @@ func main() {
 	slog.SetDefault(logger)
 	
 	meter := otel.Meter("checkout")
-
+	var err error
+	
 	paymentFailureCounter, err = meter.Int64Counter(
 		"app.payment.failures",
 		metric.WithDescription("Count of failed payment attempts"),
@@ -414,7 +415,7 @@ func (cs *checkout) PlaceOrder(ctx context.Context, req *pb.PlaceOrderRequest) (
 	}
 
 	shippingCostFloat, _ := strconv.ParseFloat(fmt.Sprintf("%d.%02d", prep.shippingCostLocalized.GetUnits(), prep.shippingCostLocalized.GetNanos()/1000000000), 64)
-	
+
 	span.SetAttributes(
 		attribute.String("app.order.id", orderID.String()),
 		attribute.Float64("app.shipping.amount", shippingCostFloat),
