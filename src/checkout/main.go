@@ -187,9 +187,8 @@ func main() {
 	slog.SetDefault(logger)
 	
 	meter := otel.Meter("checkout")
-	var err error
 
-	paymentFailureCounter, err = meter.Int64Counter(
+	paymentFailureCounter, err := meter.Int64Counter(
 		"app.payment.failures",
 		metric.WithDescription("Count of failed payment attempts"),
 	)
@@ -197,7 +196,7 @@ func main() {
 		logger.Error(fmt.Sprintf("failed creating app.payment.failures counter: %v", err))
 	}
 
-	paymentFailureValue, err = meter.Float64Histogram(
+	paymentFailureValue, err := meter.Float64Histogram(
 		"app.payment.failure_value",
 		metric.WithDescription("Dollar value of carts impacted by payment failures"),
 	)
@@ -205,7 +204,7 @@ func main() {
 		logger.Error(fmt.Sprintf("failed creating app.payment.failure_value histogram: %v", err))
 	}
 
-	err := runtime.Start(runtime.WithMinimumReadMemStatsInterval(time.Second))
+	err = runtime.Start(runtime.WithMinimumReadMemStatsInterval(time.Second))
 	if err != nil {
 		logger.Error((err.Error()))
 	}
