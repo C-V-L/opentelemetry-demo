@@ -188,7 +188,7 @@ func main() {
 	
 	meter := otel.Meter("checkout")
 
-	paymentFailureCounter, err := meter.Int64Counter(
+	paymentFailureCounter, err = meter.Int64Counter(
 		"app.payment.failures",
 		metric.WithDescription("Count of failed payment attempts"),
 	)
@@ -196,7 +196,7 @@ func main() {
 		logger.Error(fmt.Sprintf("failed creating app.payment.failures counter: %v", err))
 	}
 
-	paymentFailureValue, err := meter.Float64Histogram(
+	paymentFailureValue, err = meter.Float64Histogram(
 		"app.payment.failure_value",
 		metric.WithDescription("Dollar value of carts impacted by payment failures"),
 	)
