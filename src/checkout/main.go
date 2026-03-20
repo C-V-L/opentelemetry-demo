@@ -188,7 +188,7 @@ func main() {
 	
 	meter := otel.Meter("checkout")
 	var err error
-	
+
 	paymentFailureCounter, err = meter.Int64Counter(
 		"app.payment.failures",
 		metric.WithDescription("Count of failed payment attempts"),
