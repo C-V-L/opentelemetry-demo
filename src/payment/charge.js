@@ -34,7 +34,7 @@ module.exports.charge = async request => {
       span.setAttributes({'app.loyalty.level': 'gold' });
       span.end();
 
-      throw new Error('Payment request failed. Invalid token. app.loyalty.level=gold');
+      throw new Error('Payment request failed. Rate limit exceeded for api-key.');
     }
   }
 
