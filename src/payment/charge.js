@@ -34,8 +34,12 @@ module.exports.charge = async request => {
       span.setAttributes({'app.loyalty.level': 'gold' });
       span.end();
 
-      throw new Error('Payment request failed. Rate limit exceeded for api-key.');
-    }
+      if (Math.random() < 0.9) {
+        throw new Error('Payment request failed. Rate limit exceeded for api-key.');
+      } else {
+        throw new Error('Payment request failed. Invalid credit card details.');
+      }    
+   }
   }
 
   const {
